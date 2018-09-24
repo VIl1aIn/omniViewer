@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+body {background-image:url("/eventViewer/images/omni-bg.jpg");}
+tr.tr-hover:hover {background-color:#dda0dd;}
+.button.button-delete {background-color: tomato;border-color: tomato;}
+.button.button-small {font-size: .8rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1.5rem;}

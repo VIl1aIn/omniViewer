@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>View</title>
+</head>
+
+<body>
+<style>
+tr td th {line-height:15px;padding-top:1px;padding-bottom: 1px;}
+</style>
+<script th:inline="javascript">
+    if ([[${refresh}]]) {
+        var x = document.createElement("META");
+        x.setAttribute("http-equiv", "refresh");
+        x.setAttribute("content", String([[${refresh}]]));
+        document.head.appendChild(x);
+    }
+</script>
+
+
+<h3 th:text="#{text.view}">View</h3>
+
+<div class="container">
+    <div class="row">
+			<div class="column column-20">
+				<label for="selFilter" th:text="#{label.selfilter}">Set
+					filters:</label> <select name="selFilter" onchange="setFilter(value)">
+					<option value="Class=0" selected="selected"
+						th:text="#{text.selfilter.value}">No Sel</option>
+					<option th:each="el : ${listFilters}" th:text="${el.key}"
+						th:value="${el.value}">Set 1</option>
+				</select>
+			</div>
+	</div>
+
+<form id="formQuery">
+<fieldset>
+	<div class="row">
+		<div class="column column-20">
+			<label for="ref" th:text="#{label.refresh}">Refresh</label>
+			<select	name="ref" style="width: 110px" onchange="submit()">
+				<option th:each="r : ${listRef}" th:value="${r.value}"
+						th:text="${r.key}" th:if="${r.value} == ${refresh}"
+						selected="selected">Refresh</option>
+				<option th:each="r : ${listRef}" th:value="${r.value}"
+						th:text="${r.key}" th:unless="${r.value} == ${refresh}">Refresh</option>
+			</select>
+		</div>
+
+		<div class="column column-50">
+			<label for="query" th:text="#{label.query}">Filter</label>
+			<input type="text" name="query" th:value="${filter}" id="rawFilter" />
+		</div>
+		<div class="column column-33">
+			<label for="order" th:text="#{events.order}">Order by</label>
+			<input type="text" name="order" th:placeholder="#{events.order}" th:value="${order}" />
+						<!-- <input type="text" name="group" placeholder="Group by"/> -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="column column-offset-20">
+			<input class="button button-small" type="submit" th:value="#{filter.submit}" />
+			<a class="button button-outline button-small" th:href="@{/disconnect}"
+				th:text="#{button.disconnect}">Disconnect</a>
+		</div>
+	</div>
+</fieldset>
+</form>
+</div>
+
+<!-- Table with events list -->
+
+<div align="right">
+    <a class="button button-clear" th:href="@{/create}" th:text="#{text.create}">Create</a>
+</div>
+
+    <h5 th:text="${username}+'@'+${host}+'/'+${ncoms}">Host, user, NCOMS</h5>
+    <div th:text="#{text.count} + ' ' + ${count}">Count</div>
+
+<form action="#" th:action="@{/bulkedit}" method="post" onsubmit="return confirm('Change events?')">
+    <div class="row">
+    <div class="column">
+<table style="font-size: 80%;">
+<thead th:bgcolor="Silver">
+<tr>
+	<th><input type="checkbox" name="ACK" onclick="setAll(checked)"/></th>
+	<th th:text="#{event.header.ack}">Ack</th>
+	<th th:text="#{event.header.sev}">Severity</th>
+	<th th:text="#{event.header.time}" style="min-width: 120px">Time</th>
+	<th th:text="#{event.header.akey} +' / '+ #{event.header.agroup}">AlertKey/AlertGroup</th>
+	<th th:text="#{event.header.node} +' / '+ #{event.header.alias}">Node/Alias</th>
+	
+	<!-- Custom list here -->
+	<th th:each="f : ${listFields}" th:text="${f.value}">Header</th>
+</tr>
+</thead>
+
+<tbody>
+
+
+
+<tr class="tr-hover" th:id="'id'+${event.serial}" th:each="event : ${events}">
+	<td><input type="checkbox" name="eventserial"
+			th:value="${event.serial}" onclick="changeColor(value, checked)" />
+	</td>
+
+	<td><input type="checkbox" name="ACK" th:checked="${event.ack}" disabled="disabled"/></td>
+
+	<td style="color:black" th:text="${sevStr[event.severity]}" th:bgcolor="${colors[event.severity]}">Severity</td>
+	<td>
+		<a href="detail.html" th:href="@{/detail(serial=${event.serial}, edit=${false})}"
+		   th:text="${#dates.format(event.firstOccurrence, 'dd.MM.yy HH:mm')}">First</a>
+		<div th:text="${#dates.format(event.lastOccurrence, 'dd.MM.yy HH:mm')}">Last date</div>
+	</td>
+	<td th:text="${event.alertKey}+' / '+${event.alertGroup}">AlertK/G</td>
+
+	<td th:text="${event.node}+' / '+${event.nodeAlias}">HostAlias</td>
+
+	<td th:each="f : ${listFields}" th:text="${event.__${f.key}__}">Field</td>
+</tr>
+<tr>
+    <td colspan="2">
+    <select name="ack">
+     <option value="-1" selected="selected" th:text="#{event.header.ack}">NoAck</option>
+     <option value="1" th:text="#{text.ack.yes}">Yes</option>
+     <option value="0" th:text="#{text.ack.no}">No</option>
+    </select>
+    </td>
+
+    <td colspan="2">
+     <select name="sev">
+      <option value="-1" selected="selected" th:text="#{event.header.sev}">Not Change</option>
+      <option th:each="sev : ${sevStr}" th:value="${sev.key}" th:text="${sev.value}">Sev</option>
+     </select>
+    </td>
+
+    <td colspan="3">
+    <input class="button button-small" type="submit" th:name="action" th:value="Update"/>
+    </td>
+   <td>
+   <input type="submit" class="button button-delete button-small" th:name="action" th:value="Delete"/>
+   </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</form>
+
+<div th:replace="base :: footer"></div>
+
+</body>
+</html>

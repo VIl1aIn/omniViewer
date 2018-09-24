@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+
+	<table>
+
+	<tr th:fragment="extAttr-notEmpty">
+        <th>
+            <div th:text="#{event.edit.extattr}">Ext Attr</div></th>
+        <td><textarea class="adv-input"
+                      rows="4" cols="50"
+                      th:readonly="${view}"
+                      th:field="*{extAttr}">This is text</textarea></td>
+    </tr>
+    <tr class="adv-hidden" hidden="hidden" th:fragment="extAttr-Empty">
+        <th>
+            <div th:text="#{event.edit.extattr}">Ext Attr</div></th>
+        <td><textarea id="extAttr"
+                      rows="4" cols="50"
+                      th:field="*{extAttr}">This is text</textarea></td>
+    </tr>
+
+		<tr th:fragment="eventId" class="adv-hidden" hidden="hidden">
+			<th><div th:text="#{event.edit.eventid}">Event ID</div></th>
+			<td><input type="text" th:field="*{eventId}" /></td>
+		</tr>
+		<tr th:fragment="location" class="adv-hidden" hidden="hidden">
+			<th><div th:text="#{event.edit.location}">Location</div></th>
+			<td><input type="text" th:field="*{location}" /></td>
+		</tr>
+		<tr th:fragment="customer" class="adv-hidden" hidden="hidden">
+			<th><div th:text="#{event.edit.customer}">Location</div></th>
+			<td><input type="text" th:field="*{customer}" /></td>
+		</tr>
+		<tr th:fragment="url" class="adv-hidden" hidden="hidden">
+			<th><div th:text="#{event.edit.url}">URL</div></th>
+			<td><input type="text" th:field="*{url}" /></td>
+		</tr>
+
+		<!-- Hidden expire time Not Set (0)-->
+		<tr th:fragment="expireTime-Set">
+			<th><div th:text="#{event.edit.expiretime}">Expire Time</div></th>
+			<td><input type="text" class="adv-input" th:readonly="${view}"
+				th:field="*{expireTime}" />Not set is empty</td>
+		</tr>
+		<tr th:fragment="expireTime-0" class="adv-hidden" hidden="hidden">
+			<th><div th:text="#{event.edit.expiretime}">Expire Time</div></th>
+			<td><input type="text" th:field="*{expireTime}" /></td>
+		</tr>
+
+	</table>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="base :: header">
+        <title>Help</title>
+    </head>
+    <body>
+        <h2>List class</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Class</th><th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cc : ${classConv}">
+                    <td th:text="${cc.key}">Value</td><td th:text="${cc.value}">Conversions</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Detail</title>
+</head>
+<body>
+<h1>Event detail</h1>
+
+<div class="container">
+<div class="row">
+<div class="column column-80 column-offset-10">
+<table>
+<tbody>
+<tr th:each="field : ${listFields}"
+		th:unless="*{#strings.isEmpty(event.__${field}__) or event.__${field}__ == 0}">
+	<th th:text="${field}">Fields</th>
+	<td th:text="${event.__${field}__}">Value</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+	<div class="row">
+		<div class="column column-33">
+			<a class="button button-clear" th:href="@{/view}"
+				th:text="#{button.back}">Back</a>
+		</div>
+		<div class="column column-67">
+			<a class="button" th:href="@{/detail(serial=${event.serial}, edit=true)}">Modify</a>
+		</div>
+	</div>
+
+<!-- 
+	<div class="row">
+		<div class="column column-67 column-offset-33">
+			<label style="color: grey; font-weight: bold;">
+			<input type="checkbox" name="advchk" onchange="advField(checked)" />
+			<input type="hidden" id="view" name="view" th:value="${view}" />
+			<span class="label-body" th:text="#{checkbox.detail.adv}">Show empty</span></label>
+		</div>
+	</div> -->
+</div>
+		<div th:replace="base :: footer"></div>
+</body>
+</html>

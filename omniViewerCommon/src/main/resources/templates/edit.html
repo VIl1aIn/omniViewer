@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Edit</title>
+</head>
+<body>
+<style>
+tr td th {line-height:16px;}
+input[type=text] {width:50%;}
+select {width:50%;}
+p {color:red;font-size:80%;font-style:oblique;}
+</style>
+
+<h3 th:text="#{text.edit}">Edit event</h3>
+
+<h5 th:text="${username}+'@'+${host}+'/'+${ncoms}">Host, username, NCOMS</h5>
+
+<div class="container">
+<form action="modify" th:action="@{/modify}" th:object="${event}" method="post">
+<fieldset>
+<div class="row">
+ <div class="column">
+<table>
+<tbody>
+    <tr>
+        <th><div th:text="#{event.edit.ack}">Acknowledged</div></th>
+        <td><input type="checkbox" th:field="*{ack}"/></td>
+    </tr>
+    <tr th:if="${view}">
+        <th><div th:text="#{event.serial}">Serial</div></th>
+        <td><div id="serial" th:text="*{serial}">Serial</div>
+            <input type="hidden" th:field="*{serial}"/>
+        </td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.class}">Class</div></th>
+        <td>
+            <input type="text" th:field="*{eventClass}" th:disabled="${view}"/>
+            <span th:if="${view}" th:text="'('+${classStr[event.eventClass]}+')'">Class</span>
+            <a th:unless="${view}" th:href="@{/helpClass}" th:text="#{text.help.list.class}" target="_blank">Help</a>
+            <p th:if="${#fields.hasErrors('eventClass')}"
+               th:errors="*{eventClass}">Error</p>
+        </td>
+    </tr>
+    
+    <tr>
+        <th><div th:text="#{event.edit.agent}">Agent</div></th>
+        <td><input type="text" id="agent" onchange="generateId()"
+                   th:field="*{agent}" th:disabled="${view}"/></td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.manager}">Manager</div></th>
+        <td><input type="text" th:field="*{manager}" th:disabled="${view}"/></td>
+    </tr>
+
+    <tr>
+        <th><div th:text="#{event.identifier}">Identifier</div></th>
+        <td><textarea
+                id="id"
+                cols="50"
+                rows="2"
+                th:field="*{identifier}"
+                th:readonly="${view}">
+            </textarea>
+            <p th:if="${#fields.hasErrors('identifier')}"
+               th:errors="*{identifier}">Error</p>
+            <div th:unless="${view}">
+                <input type="checkbox" id="genid"/>
+                <label class="label-inline" for="genid">Auto generate</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.bsmid}">BSM_Identity</div></th>
+        <td><input type="text" th:field="*{bsmIdentity}" th:disabled="${view}"/></td>
+    </tr>
+    <tr th:if="${view}">
+        <th><div th:text="#{event.first}">First time</div></th>
+        <td><div id="first" th:text="*{firstOccurrence}">First</div></td>
+    </tr>
+    <tr th:if="${view}">
+        <th><div th:text="#{event.last}">Last time</div></th>
+        <td><div id="last" th:text="*{lastOccurrence}">Last</div></td>
+    </tr>
+    <tr th:if="${view}">
+        <th><div th:text="#{event.statechange}">Change time</div></th>
+        <td><div id="state" th:text="*{stateChange}">Last</div></td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.agroup}">AlertGroup</div></th>
+        <td><input type="text" id="agroup" onchange="generateId()"
+                   th:field="*{alertGroup}" th:disabled="${view}"/></td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.akey}">AlertKey</div></th>
+        <td><input type="text" id="akey" onchange="generateId()"
+                   th:field="*{alertKey}" th:disabled="${view}"/></td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.sev}">Severity</div></th>
+        <td>
+            <select id="svr" th:field="*{severity}">
+		<option th:each="sev : ${sevStr}"
+		  th:value="${sev.key}"
+		  th:text="${sev.value}" 
+		  th:if="${sev.key} == *{severity}" selected="selected">OptSel</option>
+		  <option th:each="sev : ${sevStr}"
+		  th:value="${sev.key}"
+		  th:text="${sev.value}"
+		  th:unless="${sev.key} == *{severity}">Opt</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.node}">Node</div></th>
+        <td><input type="text" id="node" onchange="generateId()"
+                   th:field="*{node}" th:disabled="${view}"/></td>
+    </tr>
+    <tr>
+        <th><div th:text="#{event.edit.alias}">NodeAlias</div></th>
+        <td><input type="text" id="nodealias" onchange="generateId()"
+                   th:field="*{nodeAlias}" th:disabled="${view}"/></td>
+    </tr>
+
+    <!-- Hidden empty field -->
+    <tr th:unless="*{#strings.isEmpty(summary)}">
+        <th>
+            <div th:text="#{event.edit.summary}">Summary</div></th>
+        <td><textarea class="adv-input"
+                      rows="4" cols="50"
+                      th:readonly="${view}"
+                      th:field="*{summary}">This is text</textarea></td>
+    </tr>
+    <tr class="adv-hidden" hidden="hidden" th:if="*{#strings.isEmpty(summary)}">
+        <th>
+            <div th:text="#{event.edit.summary}">Summary</div></th>
+        <td><textarea id="summary"
+                      rows="4" cols="50"
+                      th:field="*{summary}">This is text</textarea></td>
+    </tr>
+
+<!-- Custom section start -->
+
+	<tr
+    	th:replace="customFields :: *{#strings.isEmpty(extAttr)} ? 'extAttr-Empty' : 'extAttr-notEmpty'"> 
+    </tr>
+
+    <tr th:replace="customFields :: eventId"></tr>
+    <tr th:replace="customFields :: location"></tr>
+    <tr th:replace="customFields :: customer"></tr>
+    <tr th:replace="customFields :: url"></tr>
+
+    <tr
+    	th:replace="customFields :: *{expireTime == 0} ? 'expireTime-0' : 'expireTime-Set'"> 
+    </tr>
+
+<!-- Custom section end -->
+    <tr>
+        <th><div th:text="#{event.edit.type}">Type</div></th>
+        <td>
+            <input type="text" id="type" onchange="generateId()"
+                   th:field="*{type}" th:disabled="${view}"/>
+            <span>(1 - Problem, 2 - Resolution)</span>
+            <p th:if="${#fields.hasErrors('type')}"
+               th:errors="*{type}">Error</p>
+        </td>
+    </tr>
+</tbody>
+</table>
+ </div>
+</div>
+
+<div class="row">
+    <div class="column column-33">
+        <a class="button button-clear" th:href="@{/view}" th:text="#{button.back}">Back</a>
+    </div>
+    <div class="column column-67">
+<input th:value="#{button.save}" class="button" type="submit" />
+<input th:value="#{button.reset}" class="button button-outline" type="reset" />
+
+<a th:href="@{/delete(serial=*{serial})}"
+   th:text="#{button.delete}"
+   th:if="${view}"
+   class="button button-delete">del</a>
+
+</div>
+</div>
+    <div class="row">
+        <div class="column column-67 column-offset-33">
+    <label style="color: red; font-weight: bold;">
+        <input type="checkbox" name="advchk" onchange="advField(checked)"/>
+        <input type="hidden" id="view" name="view" th:value="${view}"/>
+        <span class="label-body" th:text="#{checkbox.edit.adv}">Advanced</span>
+    </label>
+            </div>
+        </div>
+
+</fieldset>
+</form>
+</div>
+
+<div th:replace="base :: footer"></div>
+</body>
+</html>

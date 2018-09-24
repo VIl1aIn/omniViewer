@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="base :: header">
+        <title>Index</title>
+    </head>
+    <body>
+        <h1 th:text="#{text.index}">Index</h1>
+        <h2 th:text="#{text.login}">Login</h2>
+        <h4 th:text="#{text.divwelcome}">Input user, password, host, port, OMNI</h4>
+
+        <div style="font-weight: bold;color: red" th:unless="${#strings.isEmpty(errmsg)}" th:text="#{text.error}+'. '+${errmsg}">Error</div>
+
+        <form action="#" th:action="@{/connect}" method="post">
+            <fieldset>
+                <div class="container">
+                    <div class="row">
+                        <div class="column">
+                            <input type="text" name="username" placeholder="User name" maxlength="10" />
+                        </div>
+                        <div class="column">
+                            <input type="password" name="password" placeholder="password" maxlength="10" />
+                        </div>
+                        <input type="text" name="host" placeholder="host name" maxlength="20"/>
+                        <div class="column">
+                            <input type="text" name="port" value="4100" placeholder="port" maxlength="8"/>
+                        </div>
+                        <div class="column">
+                            <input type="text" name="ncoms" value="NCOMS" placeholder="OMNI" maxlength="10"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column"><input class="button" type="submit" th:value="#{button.connect}"/></div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+
+        <h2 th:text="#{text.quicklink}">Quick link</h2>
+	<ul>
+            <li><a href="/" th:href="@{/view}">Event list</a></li>
+            <li><a href="/" th:href="@{/create}" th:text="#{text.create}">New event</a></li>
+	</ul>
+    </body>
+</html>

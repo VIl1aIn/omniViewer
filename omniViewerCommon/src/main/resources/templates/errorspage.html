@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="base :: header">
+        <title>Err</title>
+    </head>
+    <body>
+        <h1>Error page</h1>
+        <div class="container">
+            <div class="row">
+                <div class="seven columns" th:text="${errorMsg}">Error</div>
+            </div>
+            <div class="row">
+                <a class="button" th:href="@{/view}">Back</a>
+            </div>
+        </div>
+    </body>
+</html>
