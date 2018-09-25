@@ -14,3 +14,6 @@ Main functions
 - modify events
 - create your own events
 - massively change the severity and confirm events
+
+More detail information by english will be later.
+Russian instruction into [folder Doc](omniViewerCommon/Doc/README.md)
