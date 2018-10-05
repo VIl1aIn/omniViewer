@@ -1,6 +1,7 @@
 package eventViewer;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,8 @@ public class EventService {
     public HashMap<Integer, String> severityConv, severityColor, classConv;
     public HashMap<String, Integer> listRefresh;
     public HashMap<String, String> listFilters, listFields;
-    public ArrayList<String> listDetails;
+    public ArrayList<String> listDetails, listColumns;	// listDetails - list event fields for output
+    													// listColumns - list ALL columns into Event DB
 
     public EventService(SettingDAO dao) {
 
@@ -42,6 +44,7 @@ public class EventService {
         listFields = getDefaultListFields();
         listRefresh = getDefaultListRefresh();
         listDetails = getBaseFields();
+        listColumns = new ArrayList<String>();
     }
     /**
      * 
@@ -143,6 +146,13 @@ public class EventService {
             new RowMapper<Event>() {
             @Override
             public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+            	if (listColumns.isEmpty()) {
+            		// Get list columns
+            		ResultSetMetaData rsmd = rs.getMetaData();
+            		for (int i=1; i <= rsmd.getColumnCount(); i++) {
+            			listColumns.add(rsmd.getColumnName(i));
+            		}
+            	}
             	return newEventFromRS(rs);
             }
         }
@@ -284,7 +294,7 @@ public class EventService {
      *
      * @param colConf
      */
-    public void setColumns(ColumnSetConfig colConf) {
+    public void setAdditionalColumns(ColumnSetConfig colConf) {
     	if (!(colConf.getColSets().isEmpty() || colConf.getColSets() == null)) {
     		listFields.clear();
     		for (ColumnSetConfig.ColSet cs : colConf.getColSets()) {
@@ -312,7 +322,7 @@ public class EventService {
      * Get base list fields by event
      * @return ArrayList<String> with list events
      */
-    public ArrayList<String> getBaseFields() {
+    private ArrayList<String> getBaseFields() {
     	ArrayList<String> bD = new ArrayList<String>();
     	bD.add("ack");
     	bD.add("identifier");

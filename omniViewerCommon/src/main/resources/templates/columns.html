@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Columns</title>
+</head>
+<body>
+<h3 th:text="#{text.columns}">Columns</h3>
+<ul style="line-height:70%;margin:0 0 10% 0">
+	<li th:each="column : ${columns}" th:text="${column}" />
+</ul>
+</body>
+</html>

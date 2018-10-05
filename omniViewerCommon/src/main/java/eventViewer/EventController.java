@@ -73,7 +73,7 @@ public class EventController {
             es.setFilters(fsConf);
         }
         if (columnConf.isSet()) {
-            es.setColumns(columnConf);
+            es.setAdditionalColumns(columnConf);
         }
         if (colorConf.isSet()) {
             es.setColor(colorConf);
@@ -81,6 +81,12 @@ public class EventController {
         return "redirect:/view";
     }
 
+    // List available fields the event server
+    @RequestMapping("/columns")
+    public String columns(Model model) {
+    	model.addAttribute("columns", es.listColumns);
+    	return "columns";
+    }
     // List events by filter
     @RequestMapping("/view")
     public String view(@RequestParam(value = "query", required = false, defaultValue = "") String rawFilter,

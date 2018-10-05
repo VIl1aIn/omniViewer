@@ -6,7 +6,7 @@
 
 <body>
 <style>
-tr td th {line-height:15px;padding-top:1px;padding-bottom: 1px;}
+tr td th {line-height:15px;padding-top:1px;padding-bottom:1px;}
 </style>
 <script th:inline="javascript">
     if ([[${refresh}]]) {
@@ -71,6 +71,7 @@ tr td th {line-height:15px;padding-top:1px;padding-bottom: 1px;}
 <!-- Table with events list -->
 
 <div align="right">
+    <a target="_blank" th:href="@{/columns}" th:text="#{text.columns}">Fields</a>
     <a class="button button-clear" th:href="@{/create}" th:text="#{text.create}">Create</a>
 </div>
 
