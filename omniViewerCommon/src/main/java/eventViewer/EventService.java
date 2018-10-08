@@ -28,8 +28,14 @@ public class EventService {
     public HashMap<Integer, String> severityConv, severityColor, classConv;
     public HashMap<String, Integer> listRefresh;
     public HashMap<String, String> listFilters, listFields;
-    public ArrayList<String> listDetails, listColumns;	// listDetails - list event fields for output
-    													// listColumns - list ALL columns into Event DB
+    public ArrayList<String> listDetails; // listDetails - list event fields for output
+    /*
+     * listColumns - list ALL columns into Event DB
+     * String - The name field
+     * Boolean - true - this field into current scheme
+     * 			- false - no into current scheme
+     */
+    public HashMap<String, Boolean> listColumns;
 
     public EventService(SettingDAO dao) {
 
@@ -44,7 +50,7 @@ public class EventService {
         listFields = getDefaultListFields();
         listRefresh = getDefaultListRefresh();
         listDetails = getBaseFields();
-        listColumns = new ArrayList<String>();
+        listColumns = new HashMap<String, Boolean>();
     }
     /**
      * 
@@ -65,8 +71,8 @@ public class EventService {
     	ev.setIdentifier(rs.getString("Identifier"));
     	ev.setAgent(rs.getString("Agent"));
     	ev.setManager(rs.getString("Manager"));
-    	ev.setBsmIdentity(rs.getString("BSM_Identity"));
-    	ev.setBsmSubIdentity(rs.getString("BSM_SubIdentity"));
+    	ev.setBsm_Identity(rs.getString("BSM_Identity"));
+    	ev.setBsm_SubIdentity(rs.getString("BSM_SubIdentity"));
         ev.setAlertKey(rs.getString("AlertKey"));
         ev.setAlertGroup(rs.getString("AlertGroup"));
         ev.setNode(rs.getString("Node"));
@@ -127,6 +133,29 @@ public class EventService {
     }
 
     /*
+     * Check exist field into Event.class (output columns)
+     * check by listDetails (all setup field)
+     */
+    private boolean isDefined(String column) {
+    	String fieldName;
+    	for (String el : listDetails) { 
+    		if (el.equals("ack")) {
+    			fieldName = "Acknowledged";
+    		} else if (el.equals("eventClass")) {
+    			fieldName = "Class";
+    		} else if (el.equals("extAttr")) {
+    			fieldName = "ExtendedAttr";
+    		} else {
+    			fieldName = el;
+    		}
+    		if (fieldName.toUpperCase().equals(column.toUpperCase())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    /*
      * get event list from OMNI
      */
     public List<Event> list(String filter, String group, String order) {
@@ -150,7 +179,7 @@ public class EventService {
             		// Get list columns
             		ResultSetMetaData rsmd = rs.getMetaData();
             		for (int i=1; i <= rsmd.getColumnCount(); i++) {
-            			listColumns.add(rsmd.getColumnName(i));
+            			listColumns.put(rsmd.getColumnName(i), isDefined(rsmd.getColumnName(i)));
             		}
             	}
             	return newEventFromRS(rs);
@@ -234,7 +263,7 @@ public class EventService {
         insertField(insertMap, "AlertGroup", ev.getAlertGroup());
         insertField(insertMap, "Node", ev.getNode());
         insertField(insertMap, "NodeAlias", ev.getNodeAlias());
-        insertField(insertMap, "BSM_Identity", ev.getBsmIdentity());
+        insertField(insertMap, "BSM_Identity", ev.getBsm_Identity());
         insertField(insertMap, "Summary", ev.getSummary());
         insertField(insertMap, "ExtendedAttr", ev.getExtAttr());
         insertField(insertMap, "URL", ev.getUrl());
@@ -342,8 +371,8 @@ public class EventService {
     	bD.add("localPriObj");
     	bD.add("localRootObj");
     	bD.add("localSecObj");
-    	bD.add("bsmIdentity");
-    	bD.add("bsmSubIdentity");
+    	bD.add("bsm_Identity");
+    	bD.add("bsm_SubIdentity");
     	bD.add("location");
     	bD.add("customer");
     	bD.add("eventId");

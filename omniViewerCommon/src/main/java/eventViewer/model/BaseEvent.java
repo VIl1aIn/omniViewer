@@ -25,7 +25,7 @@ public class BaseEvent {
 	 * 
      */
     private String alertKey, alertGroup, node, nodeAlias,
-            summary, bsmIdentity, bsmSubIdentity,eventId,
+            summary, bsm_Identity, bsm_SubIdentity,eventId,
             agent, manager, extAttr, serverName, url,
             location, service, customer, tecHostname,
             localNodeAlias, localPriObj, localRootObj, localSecObj;
@@ -75,11 +75,11 @@ public class BaseEvent {
     public String getManager() {
         return manager;
     }
-    public String getBsmIdentity() {
-        return bsmIdentity;
+    public String getBsm_Identity() {
+        return bsm_Identity;
     }
-    public String getBsmSubIdentity() {
-        return bsmSubIdentity;
+    public String getBsm_SubIdentity() {
+        return bsm_SubIdentity;
     }
     public String getAlertGroup() {
         return alertGroup;
@@ -199,11 +199,11 @@ public class BaseEvent {
     public void setManager(String manager) {
         this.manager = cf.convertString(manager);
     }
-    public void setBsmIdentity(String bsmid) {
-        bsmIdentity = cf.convertString(bsmid);
+    public void setBsm_Identity(String bsmid) {
+        bsm_Identity = cf.convertString(bsmid);
     }
-    public void setBsmSubIdentity(String bsmsubid) {
-        bsmSubIdentity = cf.convertString(bsmsubid);
+    public void setBsm_SubIdentity(String bsmsubid) {
+        bsm_SubIdentity = cf.convertString(bsmsubid);
     }
     public void setAlertKey(String aKey) {
         alertKey = cf.convertString(aKey);

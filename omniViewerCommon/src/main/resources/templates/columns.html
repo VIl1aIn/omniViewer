@@ -4,9 +4,26 @@
     <title>Columns</title>
 </head>
 <body>
+<style>
+table tr td {border:none;line-height:50%;}
+</style>
+
 <h3 th:text="#{text.columns}">Columns</h3>
-<ul style="line-height:70%;margin:0 0 10% 0">
-	<li th:each="column : ${columns}" th:text="${column}" />
-</ul>
+
+<div class="container">
+<div class="row">
+<div class="column column-67">
+<table>
+<tbody>
+	<tr th:each="col : ${columns}">
+		<td th:style="${col.value} ? 'font-weight:bold;' : 'font-style:italic;'"
+			th:text="${col.key}"></td>
+		<td th:unless="${col.value}" style="color:red;" th:text="#{text.columns.absent}"></td>
+	</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </body>
 </html>
