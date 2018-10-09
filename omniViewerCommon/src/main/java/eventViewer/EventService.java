@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -35,7 +36,7 @@ public class EventService {
      * Boolean - true - this field into current scheme
      * 			- false - no into current scheme
      */
-    public HashMap<String, Boolean> listColumns;
+    public TreeMap<String, Boolean> listColumns;
 
     public EventService(SettingDAO dao) {
 
@@ -50,7 +51,7 @@ public class EventService {
         listFields = getDefaultListFields();
         listRefresh = getDefaultListRefresh();
         listDetails = getBaseFields();
-        listColumns = new HashMap<String, Boolean>();
+        listColumns = new TreeMap<String, Boolean>();
     }
     /**
      * 
