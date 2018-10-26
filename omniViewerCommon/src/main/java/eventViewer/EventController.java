@@ -1,5 +1,21 @@
 package eventViewer;
 
+/**
+ * This controller
+ * Contents next requests:
+ * - index
+ * - connect
+ * - columns
+ * - view
+ * - detail
+ * - modify
+ * - create
+ * - rawmode
+ * - bulkedit
+ * - delete
+ * - disconnect
+ * - helpClass
+ */
 import eventViewer.model.Event;
 import eventViewer.config.ColorSetConfig;
 import eventViewer.config.ColumnSetConfig;
@@ -168,6 +184,24 @@ public class EventController {
         return "edit";
     }
 
+    @RequestMapping("/rawmode")
+    public String rawmode(@RequestParam(required = false) String sqlrequest,
+    		Model model) {
+    	if (sqlrequest == null || sqlrequest.isEmpty()) {
+    		return "rawmode";
+    	}
+    	if (es == null) {
+    		return "redirect:/";
+    	}
+    	String res = es.rawSQLrequest(sqlrequest);
+    	model.addAttribute("res", res);
+    	if (es.rawOutput.isEmpty()) {
+    		model.addAttribute("out", "No Value");
+    	} else {
+    		model.addAttribute("out", "Select success");
+    	}
+    	return "rawmode";
+    }
     /**
      * Mass update event: Severity and Acknowledged
      *

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -37,6 +38,8 @@ public class EventService {
      * 			- false - no into current scheme
      */
     public TreeMap<String, Boolean> listColumns;
+    // Result select for raw request 
+    public List<Map<String,Object>> rawOutput = new ArrayList<Map<String,Object>>();
 
     public EventService(SettingDAO dao) {
 
@@ -190,6 +193,19 @@ public class EventService {
         return events;
     }
 
+    public String rawSQLrequest(String req) {
+    	String query = req.trim();
+    	int res;
+    	if (query.toUpperCase().startsWith("SELECT")) {
+    		rawOutput = jdbc.queryForList(query);
+    		return "select is OK";
+    	} else {
+    		res = jdbc.update(req);
+    	}
+    	
+    	return Integer.toString(res) + " rows affected";
+    }
+
     public Event get(int eventSerial) {
         return list("Serial = " + eventSerial, "", "").get(0);
     }
@@ -249,6 +265,10 @@ public class EventService {
         }
     }
 
+    /**
+     * Create event in to alert.status
+     * @param ev
+     */
     public void create(Event ev) {
         HashMap<String, String> insertMap = new HashMap<String, String>();
         // Add fields for insert to alerts
