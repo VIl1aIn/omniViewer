@@ -5,18 +5,27 @@
 </head>
 <body>
 <h3 th:text="#{text.rawmode}">Raw mode</h3>
-<h4 style="color:#FE0000;">WARNING! It is may be dangerous</h4>
+<h5 style="color:#FE0000;">WARNING! It is may be dangerous</h5>
 <div>Commands for modifying a schema (ex. adding columns) will require relogin operation</div>
 <form id="sqlform" method="post" action="rawmode" th:action="@{/rawmode}">
 <fieldset>
-<textarea name="sqlrequest" placeholder="The SQL request is here">
+<textarea name="sqlrequest" placeholder="The SQL request is here" th:text="${sqlrequest}">
 </textarea>
 <input class="button" type="submit" value="Submit"/>
 </fieldset>
 </form>
 
-<input type="text" id="sqloutput" placeholder="Output results" th:value="${res+' : '+out}" />
-
+<div th:if="${res}">
+<div th:text="${res}">Status</div>
+<table style="font-size:80%;" th:if="${headers}">
+<thead>
+<tr><th th:each="head : ${headers}" th:text="${head}">HEADER</th></tr>
+</thead>
+<tbody>
+<tr th:each="row : ${data}"><td th:each="cell : ${row}" th:text="${cell}">Data cell</td></tr>
+</tbody>
+</table>
+</div>
 
 </body>
 </html>

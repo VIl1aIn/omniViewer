@@ -17,6 +17,7 @@ package eventViewer;
  * - helpClass
  */
 import eventViewer.model.Event;
+import eventViewer.model.RawSQLResponse;
 import eventViewer.config.ColorSetConfig;
 import eventViewer.config.ColumnSetConfig;
 import eventViewer.config.FilterSetConfig;
@@ -193,13 +194,11 @@ public class EventController {
     	if (es == null) {
     		return "redirect:/";
     	}
-    	String res = es.rawSQLrequest(sqlrequest);
-    	model.addAttribute("res", res);
-    	if (es.rawOutput.isEmpty()) {
-    		model.addAttribute("out", "No Value");
-    	} else {
-    		model.addAttribute("out", "Select success");
-    	}
+    	RawSQLResponse rawSQL = es.rawSQLrequest(sqlrequest);
+    	model.addAttribute("sqlrequest", sqlrequest);
+    	model.addAttribute("res", rawSQL.result);
+    	model.addAttribute("headers", rawSQL.headers);
+    	model.addAttribute("data", rawSQL.rawData);
     	return "rawmode";
     }
     /**

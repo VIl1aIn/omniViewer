@@ -19,6 +19,7 @@ import eventViewer.config.ColumnSetConfig;
 import eventViewer.config.FilterSetConfig;
 import eventViewer.dao.SettingDAO;
 import eventViewer.model.Event;
+import eventViewer.model.RawSQLResponse;
 
 /**
  * Operations with alarms from OMNIbus
@@ -38,8 +39,6 @@ public class EventService {
      * 			- false - no into current scheme
      */
     public TreeMap<String, Boolean> listColumns;
-    // Result select for raw request 
-    public List<Map<String,Object>> rawOutput = new ArrayList<Map<String,Object>>();
 
     public EventService(SettingDAO dao) {
 
@@ -193,17 +192,22 @@ public class EventService {
         return events;
     }
 
-    public String rawSQLrequest(String req) {
+    public RawSQLResponse rawSQLrequest(String req) {
+    	RawSQLResponse rawSQLResponse = new RawSQLResponse();
+        // Result select for raw request 
+        List<Map<String,Object>> rawOutput = new ArrayList<Map<String,Object>>();
+
     	String query = req.trim();
+    	rawOutput.clear();
     	int res;
     	if (query.toUpperCase().startsWith("SELECT")) {
     		rawOutput = jdbc.queryForList(query);
-    		return "select is OK";
+    		rawSQLResponse.setProps(rawOutput);
     	} else {
     		res = jdbc.update(req);
+    		rawSQLResponse.result = Integer.toString(res) + " rows affected";
     	}
-    	
-    	return Integer.toString(res) + " rows affected";
+    	return rawSQLResponse;
     }
 
     public Event get(int eventSerial) {
