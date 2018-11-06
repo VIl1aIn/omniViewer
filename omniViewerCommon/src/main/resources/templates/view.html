@@ -5,9 +5,7 @@
 </head>
 
 <body>
-<style>
-tr td th {line-height:15px;padding-top:1px;padding-bottom:1px;}
-</style>
+
 <script th:inline="javascript">
     if ([[${refresh}]]) {
         var x = document.createElement("META");
@@ -147,6 +145,11 @@ tr td th {line-height:15px;padding-top:1px;padding-bottom:1px;}
 </div>
 </div>
 </form>
+
+<div align="right">
+    <a target="_blank" class="button button-clear" th:href="@{/rawmode}" th:text="#{text.rawmode}">Raw</a>
+</div>
+
 
 <div th:replace="base :: footer"></div>
 

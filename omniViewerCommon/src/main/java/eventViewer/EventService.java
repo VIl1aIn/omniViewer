@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -18,6 +19,7 @@ import eventViewer.config.ColumnSetConfig;
 import eventViewer.config.FilterSetConfig;
 import eventViewer.dao.SettingDAO;
 import eventViewer.model.Event;
+import eventViewer.model.RawSQLResponse;
 
 /**
  * Operations with alarms from OMNIbus
@@ -190,6 +192,24 @@ public class EventService {
         return events;
     }
 
+    public RawSQLResponse rawSQLrequest(String req) {
+    	RawSQLResponse rawSQLResponse = new RawSQLResponse();
+        // Result select for raw request 
+        List<Map<String,Object>> rawOutput = new ArrayList<Map<String,Object>>();
+
+    	String query = req.trim();
+    	rawOutput.clear();
+    	int res;
+    	if (query.toUpperCase().startsWith("SELECT")) {
+    		rawOutput = jdbc.queryForList(query);
+    		rawSQLResponse.setProps(rawOutput);
+    	} else {
+    		res = jdbc.update(req);
+    		rawSQLResponse.result = Integer.toString(res) + " rows affected";
+    	}
+    	return rawSQLResponse;
+    }
+
     public Event get(int eventSerial) {
         return list("Serial = " + eventSerial, "", "").get(0);
     }
@@ -249,6 +269,10 @@ public class EventService {
         }
     }
 
+    /**
+     * Create event in to alert.status
+     * @param ev
+     */
     public void create(Event ev) {
         HashMap<String, String> insertMap = new HashMap<String, String>();
         // Add fields for insert to alerts

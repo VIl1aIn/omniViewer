@@ -1,6 +1,23 @@
 package eventViewer;
 
+/**
+ * This controller
+ * Contents next requests:
+ * - index
+ * - connect
+ * - columns
+ * - view
+ * - detail
+ * - modify
+ * - create
+ * - rawmode
+ * - bulkedit
+ * - delete
+ * - disconnect
+ * - helpClass
+ */
 import eventViewer.model.Event;
+import eventViewer.model.RawSQLResponse;
 import eventViewer.config.ColorSetConfig;
 import eventViewer.config.ColumnSetConfig;
 import eventViewer.config.FilterSetConfig;
@@ -58,7 +75,7 @@ public class EventController {
         //TODO Check validate params
         // temporary simple check for NULL value
         if (username.isEmpty() || host.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/?errorMsg="+"username%20or%20hostname%20can%27t%20be%20empty";
         }
 
         // new OMNIbus(host, port, ncoms, username, password)
@@ -168,6 +185,22 @@ public class EventController {
         return "edit";
     }
 
+    @RequestMapping("/rawmode")
+    public String rawmode(@RequestParam(required = false) String sqlrequest,
+    		Model model) {
+    	if (sqlrequest == null || sqlrequest.isEmpty()) {
+    		return "rawmode";
+    	}
+    	if (es == null) {
+    		return "redirect:/";
+    	}
+    	RawSQLResponse rawSQL = es.rawSQLrequest(sqlrequest);
+    	model.addAttribute("sqlrequest", sqlrequest);
+    	model.addAttribute("res", rawSQL.result);
+    	model.addAttribute("headers", rawSQL.headers);
+    	model.addAttribute("data", rawSQL.rawData);
+    	return "rawmode";
+    }
     /**
      * Mass update event: Severity and Acknowledged
      *

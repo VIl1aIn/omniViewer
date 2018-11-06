@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Raw mode</title>
+</head>
+<body>
+<h3 th:text="#{text.rawmode}">Raw mode</h3>
+<h5 style="color:#FE0000;">WARNING! It is may be dangerous</h5>
+<div>Commands for modifying a schema (ex. adding columns) will require relogin operation</div>
+<form id="sqlform" method="post" action="rawmode" th:action="@{/rawmode}">
+<fieldset>
+<textarea name="sqlrequest" placeholder="The SQL request is here" th:text="${sqlrequest}">
+</textarea>
+<input class="button" type="submit" value="Submit"/>
+</fieldset>
+</form>
+
+<div th:if="${res}">
+<div th:text="${res}">Status</div>
+<table style="font-size:80%;" th:if="${headers}">
+<thead>
+<tr><th th:each="head : ${headers}" th:text="${head}">HEADER</th></tr>
+</thead>
+<tbody>
+<tr th:each="row : ${data}"><td th:each="cell : ${row}" th:text="${cell}">Data cell</td></tr>
+</tbody>
+</table>
+</div>
+
+</body>
+</html>

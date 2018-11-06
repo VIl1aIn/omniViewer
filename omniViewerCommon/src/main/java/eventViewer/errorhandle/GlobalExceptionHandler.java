@@ -21,16 +21,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     public ModelAndView handleNullPointerException(Exception e) {
         ModelAndView mav = new ModelAndView("redirect:/index", HttpStatus.NO_CONTENT);
-        mav.addObject("errorMsg", "Cause: " + e.getMessage());
+        String message =  e.getMessage() != null ? e.getMessage():"NullPointerException";
+        mav.addObject("errorMsg", "Cause: " + message);
         return mav;
     }
 
     @ExceptionHandler(SQLException.class)
     public ModelAndView handleSQLException(Exception e) {
-        ModelAndView mav = new ModelAndView("/errorspage", HttpStatus.BAD_REQUEST);
-        mav.addObject("errorMsg", "Get next SQL error: "
-                + e.getCause()
-                + " Check you request.");
+    	ModelAndView mav;
+    	if (e.getCause().toString().matches(".*Login failed.*")) {
+    		mav = new ModelAndView("/index", HttpStatus.UNAUTHORIZED);
+    		mav.addObject("errmsg", "Not JDBC connection. Login failed.");
+    	} else if (e.getCause().toString().matches(".*Connection refused.*")) {
+    		mav = new ModelAndView("/index", HttpStatus.SERVICE_UNAVAILABLE);
+    		mav.addObject("errmsg", "Not JDBC connection. Connection refused.");
+    	}
+    	else {
+    		mav = new ModelAndView("/errorspage", HttpStatus.BAD_REQUEST);
+    		mav.addObject("errorMsg", e.getCause());
+    	}
         return mav;
     }
 }

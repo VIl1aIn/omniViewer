@@ -31,6 +31,7 @@
 - Можно редактировать поля, но не все
 - Можно создать свое тестовое событие
 - Можно массово подтвердить или сменить важность событий
+- Можно выдать "прямой" SQL запрос на систему 
 
 ## Основные недостатки
 
@@ -72,7 +73,7 @@ English instruction will be later, sorry
 
 В итоге, командный файл может выглядеть так (для Win):
 
-```
+```cmd
 @echo off
 
 set EVNAME=eventViewer-0.3.3-SNAPSHOT.jar
@@ -85,7 +86,7 @@ java -jar %EVNAME% --spring.config.location=file:%EVCONF% --server.port=%EVPORT%
 
 Или для *nix
 
-```
+```shell
 #!/bin/sh
 
 EVNAME=eventViewer-0.3.3-SNAPSHOT.jar

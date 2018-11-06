@@ -7,3 +7,6 @@ tr.tr-hover:hover {background-color:#dda0dd;}
   height: 2.8rem;
   line-height: 2.8rem;
   padding: 0 1.5rem;}
+table tr td th {line-height:15px;
+	padding-top:1px;
+	padding-bottom:1px;}
