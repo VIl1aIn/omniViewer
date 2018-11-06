@@ -75,7 +75,7 @@ public class EventController {
         //TODO Check validate params
         // temporary simple check for NULL value
         if (username.isEmpty() || host.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/?errorMsg="+"username%20or%20hostname%20can%27t%20be%20empty";
         }
 
         // new OMNIbus(host, port, ncoms, username, password)

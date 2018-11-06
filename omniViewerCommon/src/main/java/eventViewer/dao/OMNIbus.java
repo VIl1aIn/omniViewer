@@ -47,17 +47,19 @@ public class OMNIbus implements SettingDAO {
         dataSource.setUrl(url);
         dataSource.setPassword(password);
         //dataSource.setValidationQuery("select NumTables from catalog.databases where DatabaseName = 'alerts'");
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        this.jdbcTemplate = jdbcTemplate;
-
-        HashMap<Integer, String> severity = jdbcTemplate.query(
-                "select Value, Conversion from alerts.conversions "
-                + "where Colname='Severity' order by Value", new MapValues());
-        severityConv = severity;
-        HashMap<Integer, String> enumclass = jdbcTemplate.query(
-                "select Value, Conversion from alerts.conversions "
-                + "where Colname='Class' order by Value", new MapValues());
-        classConv = enumclass;
+        try {
+        	JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        	this.jdbcTemplate = jdbcTemplate;
+        	HashMap<Integer, String> severity = jdbcTemplate.query(
+                    "select Value, Conversion from alerts.conversions "
+                    + "where Colname='Severity' order by Value", new MapValues());
+            severityConv = severity;
+            HashMap<Integer, String> enumclass = jdbcTemplate.query(
+                    "select Value, Conversion from alerts.conversions "
+                    + "where Colname='Class' order by Value", new MapValues());
+            classConv = enumclass;
+        }
+        catch (Exception e) {}
     }
 
     public String getUsername() {

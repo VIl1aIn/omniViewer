@@ -12,7 +12,11 @@ and open the template in the editor.
         <h1>Error page</h1>
         <div class="container">
             <div class="row">
-                <div class="seven columns" th:text="${errorMsg}">Error</div>
+                <div class="column column-60">
+                   <h3>SQL Error</h3>
+                   <div style="font-style:italic;" th:text="${errorMsg}"></div>
+                   <div>Check your request.</div>
+                </div>
             </div>
             <div class="row">
                 <a class="button" th:href="@{/view}">Back</a>
