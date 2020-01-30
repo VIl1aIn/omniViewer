@@ -75,7 +75,6 @@ public class EventService {
     	ev.setAgent(rs.getString("Agent"));
     	ev.setManager(rs.getString("Manager"));
     	ev.setBsm_Identity(rs.getString("BSM_Identity"));
-    	ev.setBsm_SubIdentity(rs.getString("BSM_SubIdentity"));
         ev.setAlertKey(rs.getString("AlertKey"));
         ev.setAlertGroup(rs.getString("AlertGroup"));
         ev.setNode(rs.getString("Node"));
@@ -88,7 +87,6 @@ public class EventService {
         ev.setLocation(rs.getString("Location"));
         ev.setCustomer(rs.getString("Customer"));
         ev.setService(rs.getString("Service"));
-        ev.setTecHostname(rs.getString("TECHostname"));
         ev.setLocalNodeAlias(rs.getString("LocalNodeAlias"));
         ev.setLocalPriObj(rs.getString("LocalPriObj"));
         ev.setLocalRootObj(rs.getString("LocalRootObj"));
@@ -397,7 +395,6 @@ public class EventService {
     	bD.add("localRootObj");
     	bD.add("localSecObj");
     	bD.add("bsm_Identity");
-    	bD.add("bsm_SubIdentity");
     	bD.add("location");
     	bD.add("customer");
     	bD.add("eventId");
@@ -407,7 +404,6 @@ public class EventService {
     	bD.add("tally");
     	bD.add("extAttr");
     	bD.add("serverName");
-    	bD.add("tecHostname");
     	bD.add("service");
     	bD.add("url");
     	bD.add("type");

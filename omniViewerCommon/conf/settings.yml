@@ -13,7 +13,7 @@ presets:
             filter: 'Class = 8000 and Severity !=0'
         -
             name: 'Trap'
-            filter: 'Class = 300 or Class >= 40000'
+            filter: '(Class = 300 or Class >= 40000) and Class != 99999'
         -
             name: 'Last 10 min'
             filter: 'Class not in (12000,99999) and Severity != 0 and LastOccurrence > getdate() - 600'
@@ -51,9 +51,11 @@ columns:
             col: 'tally'
             header: 'Count'
 
-#    colDetails:
-#      - itmApplLabel
-#      - radServiceName
+    colDetails:
+      - extAttr
+      - url
+      - location
+      - customer
 ---
 colors:
     colorSets:

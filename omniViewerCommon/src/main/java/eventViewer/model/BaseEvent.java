@@ -25,9 +25,9 @@ public class BaseEvent {
 	 * 
      */
     private String alertKey, alertGroup, node, nodeAlias,
-            summary, bsm_Identity, bsm_SubIdentity,eventId,
+            summary, bsm_Identity,eventId,
             agent, manager, extAttr, serverName, url,
-            location, service, customer, tecHostname,
+            location, service, customer,
             localNodeAlias, localPriObj, localRootObj, localSecObj;
     @NotBlank(message = "Not be empty")
     private String identifier;
@@ -77,9 +77,6 @@ public class BaseEvent {
     }
     public String getBsm_Identity() {
         return bsm_Identity;
-    }
-    public String getBsm_SubIdentity() {
-        return bsm_SubIdentity;
     }
     public String getAlertGroup() {
         return alertGroup;
@@ -147,9 +144,6 @@ public class BaseEvent {
     public String getService() {
     	return service;
     }
-    public String getTecHostname() {
-    	return tecHostname;
-    }
     public String getLocalNodeAlias() {
     	return localNodeAlias;
     }
@@ -202,9 +196,6 @@ public class BaseEvent {
     public void setBsm_Identity(String bsmid) {
         bsm_Identity = cf.convertString(bsmid);
     }
-    public void setBsm_SubIdentity(String bsmsubid) {
-        bsm_SubIdentity = cf.convertString(bsmsubid);
-    }
     public void setAlertKey(String aKey) {
         alertKey = cf.convertString(aKey);
     }
@@ -240,9 +231,6 @@ public class BaseEvent {
     }
     public void setService(String service) {
     	this.service = cf.convertString(service);
-    }
-    public void setTecHostname(String techost) {
-    	tecHostname = cf.convertString(techost);
     }
     public void setLocalNodeAlias(String localNodeAlias) {
     	this.localNodeAlias = cf.convertString(localNodeAlias);
