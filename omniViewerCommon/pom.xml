@@ -6,7 +6,7 @@
     <groupId>org.vil</groupId>
     <artifactId>eventViewer</artifactId>
     <version>0.2.5-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>eventViewer</name>
     <description>Service for view alarms from OMNIbus</description>
