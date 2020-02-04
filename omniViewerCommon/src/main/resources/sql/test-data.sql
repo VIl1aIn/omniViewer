@@ -51,3 +51,17 @@ insert into alerts.status values
 'TestNode','TestAlias','Summary все очень плохо','Many new data',
 'ID6789','COL01','','MSK','User123','','RTEMS',
 1,1,5,600,1,'','','','LocalSecObj','My custom value','Important service');
+
+insert into alerts.details values
+-- KeyField VARCHAR(255),
+-- Identifier VARCHAR(255),
+-- AttrVal INT,
+-- Sequence INT,
+-- Name VARCHAR(255),
+-- Detail VARCHAR(255)
+('test:event:gen####1','test:event:gen',0,1,'','attr w/ name 1 = 123'),
+('test:event:gen####2','test:event:gen',0,2,'','attr w/ name 2 = Hello guys'),
+('test:event:critical####2','test:event:critical',1,2,'OID2','Continue value 2'),
+('test:event:critical####3','test:event:critical',1,3,'OID3','Again value 3'),
+('test:event:critical####4','test:event:critical',1,4,'OID4','Repeat value 4'),
+('test:event:critical####1','test:event:critical',1,1,'OID1','Start value 1');

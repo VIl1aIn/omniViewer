@@ -26,6 +26,8 @@
 		<div class="column column-33">
 			<a class="button button-clear" th:href="@{/view}"
 				th:text="#{button.back}">Back</a>
+			<a class="button button-clear" th:href="@{/alertsdetails(id=${event.identifier})}"
+				th:text="#{button.alerts.details}" target="_blank">AlertsDetails</a>
 		</div>
 		<div class="column column-67">
 			<a class="button" th:href="@{/detail(serial=${event.serial}, edit=true)}">Modify</a>

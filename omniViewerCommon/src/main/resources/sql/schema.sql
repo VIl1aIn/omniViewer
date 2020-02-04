@@ -39,3 +39,12 @@ LocalSecObj VARCHAR(255),
 ITMApplLabel VARCHAR(255),
 RAD_ServiceName VARCHAR(255)
 );
+
+create table if not exists alerts.details (
+KeyField VARCHAR(255),
+Identifier VARCHAR(255),
+AttrVal INT,
+Sequence INT,
+Name VARCHAR(255),
+Detail VARCHAR(255)
+);

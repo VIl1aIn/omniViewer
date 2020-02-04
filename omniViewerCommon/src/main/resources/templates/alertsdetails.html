@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="base :: header">
+        <title>Alerts Details</title>
+    </head>
+    <body>
+        <h2 th:text="#{text.alerts.details.header}">Alerts Details</h2>
+        <div th:text="'ID: ' + ${id}">Not ID</div>
+    </body>
+</html>

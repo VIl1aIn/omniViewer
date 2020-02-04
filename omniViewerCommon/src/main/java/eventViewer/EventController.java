@@ -137,6 +137,8 @@ public class EventController {
         return "view";
     }
 
+    // Output the list of fields from the event
+    // or the form for create (modify) the event
     @RequestMapping("/detail")
     public String edit(@RequestParam int serial, @RequestParam boolean edit,
             Model model) {
@@ -149,6 +151,20 @@ public class EventController {
         }
 
         return edit ? "edit" : "detail";
+    }
+
+    /**
+     * Output details of the event (if exists)
+     * It is the content alerts.details table 
+     * 
+     * @param id - Identifier of the event
+     * @return
+     */
+    @RequestMapping("/alertsdetails")
+    public String alertsDetails(@RequestParam String id,
+    		Model model) {
+    	model.addAttribute("id", id);
+    	return "alertsdetails";
     }
 
     @RequestMapping("/modify")
