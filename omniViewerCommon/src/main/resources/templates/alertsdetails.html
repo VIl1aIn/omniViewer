@@ -10,6 +10,17 @@ and open the template in the editor.
     </head>
     <body>
         <h2 th:text="#{text.alerts.details.header}">Alerts Details</h2>
-        <div th:text="'ID: ' + ${id}">Not ID</div>
+        <div th:if="${not #arrays.isEmpty(details)}">
+        <table>
+        <tbody>
+         <tr th:each="row : ${details}">
+          <td th:text="${row[0]}">Cell 0</td><td th:text="${row[1]}">Cell 1</td>
+         </tr>
+         </tbody>
+        </table>
+        </div>
+        <div th:if="${#arrays.isEmpty(details)}"
+             th:text="#{text.alerts.details.nodetails}">No details
+        </div>
     </body>
 </html>

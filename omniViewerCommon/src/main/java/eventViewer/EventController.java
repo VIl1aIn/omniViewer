@@ -153,20 +153,6 @@ public class EventController {
         return edit ? "edit" : "detail";
     }
 
-    /**
-     * Output details of the event (if exists)
-     * It is the content alerts.details table 
-     * 
-     * @param id - Identifier of the event
-     * @return
-     */
-    @RequestMapping("/alertsdetails")
-    public String alertsDetails(@RequestParam String id,
-    		Model model) {
-    	model.addAttribute("id", id);
-    	return "alertsdetails";
-    }
-
     @RequestMapping("/modify")
     public String update(@Valid @ModelAttribute Event event, BindingResult result,
             @RequestParam(defaultValue = "false") boolean advchk,
@@ -217,6 +203,23 @@ public class EventController {
     	model.addAttribute("data", rawSQL.rawData);
     	return "rawmode";
     }
+
+    /**
+     * Output details of the event (if exists)
+     * It is the content alerts.details table 
+     * 
+     * @param id - Identifier of the event
+     * @return
+     */
+    @RequestMapping("/alertsdetails")
+    public String alertsDetails(@RequestParam String id,
+    		Model model) {
+    	RawSQLResponse rawSQL = es.rawSQLrequest(
+    			es.queryAlertsDetails(id));
+    	model.addAttribute("details", rawSQL.rawData);
+    	return "alertsdetails";
+    }
+
     /**
      * Mass update event: Severity and Acknowledged
      *

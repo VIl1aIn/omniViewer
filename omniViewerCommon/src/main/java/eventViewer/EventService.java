@@ -208,6 +208,18 @@ public class EventService {
     	return rawSQLResponse;
     }
 
+    /**
+     * Set the query for get values from alerts.details table
+     * for Identifier = id
+     * @param id
+     * @return final query
+     */
+    public String queryAlertsDetails(String id) {
+    	return "select Name, Detail from alerts.details"
+    			+ " where Identifier = '" + id + "'"
+    			+ " order by sequence";
+    }
+
     public Event get(int eventSerial) {
         return list("Serial = " + eventSerial, "", "").get(0);
     }

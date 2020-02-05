@@ -10,7 +10,8 @@ event server throught the clear browser (without java plugin).
 Main functions
 
 - view the filtered list of events
-- view event details
+- view the event fields
+- view the event details (if exists)
 - modify events
 - create your own events
 - massively change the severity and confirm events
