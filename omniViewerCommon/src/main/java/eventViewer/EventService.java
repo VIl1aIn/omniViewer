@@ -217,7 +217,7 @@ public class EventService {
     public String queryAlertsDetails(String id) {
     	return "select Name, Detail from alerts.details"
     			+ " where Identifier = '" + id + "'"
-    			+ " order by sequence";
+    			+ " order by Sequence";
     }
 
     public Event get(int eventSerial) {
