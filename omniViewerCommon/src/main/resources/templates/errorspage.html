@@ -19,7 +19,8 @@ and open the template in the editor.
                 </div>
             </div>
             <div class="row">
-                <a class="button" th:href="@{/view}">Back</a>
+                <a class="button" th:href="@{/view(err='true')}">Back</a>
+                <a class="button button-clear" th:href="@{/disconnect}">Disconnect</a>
             </div>
         </div>
     </body>

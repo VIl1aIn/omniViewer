@@ -11,6 +11,7 @@ package eventViewer;
  * - modify
  * - create
  * - rawmode
+ * - alertsdetails
  * - bulkedit
  * - delete
  * - disconnect
@@ -45,7 +46,7 @@ public class EventController {
     ColorSetConfig colorConf;
     @Autowired
     ApplicationContext ctx;
-        
+
     @Value("${default.filter}")
     String currentFilter;
     String currentOrder;
@@ -110,15 +111,21 @@ public class EventController {
             @RequestParam(required = false, defaultValue = "LastOccurrence desc") String order,
             @RequestParam(required = false, defaultValue = "") String group,
             @RequestParam(required = false, defaultValue = "300") String ref,
+            @RequestParam(required = false) String err,
             Model model) {
 
-        //TODO store current filter
-        // Set default filter and order
-        if (rawFilter.isEmpty()) {
-            rawFilter = currentFilter;
-        } else {
-            currentFilter = rawFilter;
-        }
+    	// Check return from errors page
+    	if (Boolean.parseBoolean(err)) {
+    		// Reset to the default value
+    		currentFilter = ctx.getEnvironment().getProperty("default.filter");
+    	} else {
+    		// Set default filter and order
+    		if (rawFilter.isEmpty()) {
+    			rawFilter = currentFilter;
+    		} else {
+    			currentFilter = rawFilter;
+    		}
+    	}
         currentOrder = order;
         refresh = Integer.parseInt(ref);
 
@@ -252,9 +259,13 @@ public class EventController {
         return "redirect:/view";
     }
 
+    /*
+     * Disconnect and set all vars into the default value
+     */
     @RequestMapping("/disconnect")
     public String disconnect() {
         es = null;
+        currentFilter = ctx.getEnvironment().getProperty("default.filter");
         return "redirect:/";
     }
 

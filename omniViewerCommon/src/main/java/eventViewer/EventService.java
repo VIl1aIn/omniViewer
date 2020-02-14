@@ -487,7 +487,7 @@ public class EventService {
         lr.put("1 min", 60);
         lr.put("3 min", 180);
         lr.put("5 min", 300);
-        lr.put("10", 600);
+        lr.put("10 min", 600);
         
         return lr;
     }
